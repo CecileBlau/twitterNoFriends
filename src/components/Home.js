@@ -1,36 +1,33 @@
 import axios from 'axios';
-
-import React, { Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import OtherFriendsPosts from './OtherFriendsPosts'
 import { Route, Link, Routes } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
-class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            otherUsersArr: [],
-            postsOtherUsers: []
-        }
+function Home(props){
+    const [otherUsersArr, setOtherUsersArr] = useState([])
+    const [postsOtherUsers, setPostsOtherUsers] = useState([])
+    let navigate = useNavigate()
+   
 
-    }
-
-    async componentDidMount() {
-        const { user_email } = this.props
+    useEffect (async ()=>{
+        const user_email  = props
         try {
+            
             const response = await axios.post('http://localhost:5050', {
                 user_email,
 
             })
             console.log(response.data)
-            this.setState({ otherUsersArr: response.data })
+            setOtherUsersArr(response.data)
         } catch (error) {
-
+            console.log(error)
         }
-    }
-
-    async otherProfile(emailOther) {
+    }, [])
+  
+    const  otherProfile= async (emailOther) =>{
         console.log(emailOther)
-        const { user_email } = this.props
+        const { user_email } = props
         try {
             const response = await axios.post('http://localhost:5050/otherfriends', {
                 emailOther,
@@ -45,33 +42,25 @@ class Home extends Component {
     }
 
     // watch friends profile
-    async seeOtherProfile(emailOther) {
-        // try {
-        //     const responseTwo = await axios.get(`/emailOther/${emailOther}`)
-        //     console.log(responseTwo.data)
-        // } catch (error) {
-
-        // }
+    const seeOtherProfile= async (emailOther) => {
 
         try {
             const response = await axios.post(`http://localhost:5050/emailOther`, {
                 emailOther
             })
-            this.setState({ postsOtherUsers: response.data })
+            setPostsOtherUsers(response.data)
 
         } catch (error) {
-
+            console.log(error)
         }
 
 
     }
 
 
-
-    render() {
         //aca se consologuea los posts del other user
-        console.log(this.state.postsOtherUsers)
-        const { otherUsersArr } = this.state
+        console.log(postsOtherUsers)
+        //const { otherUsersArr } = this.state
         return (
 
 
@@ -80,12 +69,12 @@ class Home extends Component {
                 
                 <div>
                     <h3>What are you thinking?</h3>
-                    <input onChange={this.props.handleChange} name='input'></input>
-                    <button onClick={this.props.handleClick}>post</button>
+                    <input onChange={props.handleChange} name='input'></input>
+                    <button onClick={props.handleClick}>post</button>
                     <div>
-                        {this.props.needToLoginMessage}
+                        {props.needToLoginMessage}
                     </div>
-                    {/* <div>{this.props.text}</div> */}
+
 
                 </div>
 
@@ -93,10 +82,7 @@ class Home extends Component {
 
                 <div><h3>Read your friends posts:</h3></div>
                 <div>
-                    {/* {this.state.postsOtherUsers.map((item,i)=>{
-                    console.log(item)
-                    return <OtherFriendsPosts item={item}/>
-                })} */}
+
                 </div>
                 <div>
                     <h4>People you may know</h4>
@@ -118,7 +104,7 @@ class Home extends Component {
             </div>
         );
     }
-}
+
 
 
 

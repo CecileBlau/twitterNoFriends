@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+//import * as React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import axios from 'axios'
 
 class Register extends Component {
@@ -44,29 +48,27 @@ class Register extends Component {
     render() {
         return (
             <>
-                <div>
-                    <h1>Register</h1>
-                    <label>Name </label>
-                    <input type='text' id='name' name='name' onChange={this.handleChange} />
-                    <br />
-                    <label>Last name </label>
-                    <input type='text' id='lastname' name='lastname' onChange={this.handleChange} />
-                    <br />
 
-                    <label>Email </label>
-                    <input type='email' id='email' name='email' onChange={this.handleChange} />
-                    <br />
+               <h1>Register</h1>
 
-
-                    <label>Password </label>
-                    <input type='password' id='password' onChange={this.handleChange} />
-                    <br />
-
-                    <button onClick={this.handleClick}>Register!</button>
-
-
-                </div>
-                <div>{this.state.msg}</div>
+                <>
+                    <Box
+                        component="form"
+                        sx={{
+                            '& > :not(style)': { m: 1, width: '25ch' },
+                        }}
+                        noValidate
+                        autoComplete="on"
+                    >
+                        <TextField id="name" label="Name" variant="outlined" color="secondary" onChange={this.handleChange} />
+                        <TextField id="lastname" label="Last name" variant="outlined" color="secondary" onChange={this.handleChange} />
+                        <TextField id="email" label="Email" variant="outlined"color="secondary" onChange={this.handleChange} />
+                        <TextField id="password" label="Password" variant="outlined" type='password' color="secondary" onChange={this.handleChange} />
+                        <Button color="secondary" onClick={this.handleClick}>Register!</Button>
+                    </Box>
+                    
+                    <div>{this.state.msg}</div> 
+                </>
             </>
 
         );

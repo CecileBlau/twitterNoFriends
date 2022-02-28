@@ -10,6 +10,7 @@ function Login(props) {
     let navigate = useNavigate()
   
   const  handleClick= async ()=>{
+
              try { 
                  const response = await axios.post(`http://localhost:5050/login`, {
                      //sending to the server what the user is typing 
